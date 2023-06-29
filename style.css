@@ -1,0 +1,12 @@
+.input-group {
+	padding: 25%;
+}
+.form-control {
+	background-color: inherit;
+	border: 2px solid var(--bs-border-color);
+}
+.form-control:focus {
+	box-shadow: none;
+	border: 2px solid var(--bs-border-color);
+	background-color: inherit;
+}
