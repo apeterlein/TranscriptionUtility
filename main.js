@@ -2,18 +2,22 @@
 
 $(document).ready(function () {
 	$("#file").val("");
+	let filename = "";
 	const reader = new FileReader();
 	reader.onload = function (evt) {
 		const zip = new PizZip(evt.target.result);
 		const xml = $.parseXML(zip.files["word/document.xml"].asText())
-		let lines = parseInput(xml);
-		let doc = genOutput(lines);
-		saveOutput(doc);
-		$("#file").val("");
+		const lines = parseInput(xml);
+		const doc = genOutput(lines);
+		saveOutput(doc, filename);
 	};
 	$("#file").change(function () {
-		let file = document.getElementById("file").files[0];
-		if (file) { reader.readAsArrayBuffer(file, "UTF-8"); }
+		const file = document.getElementById("file").files[0];
+		if (file && /\.docx$/g.test(file.name)) {
+			filename = file.name.substring(0, file.name.length - 5);
+			reader.readAsArrayBuffer(file, "UTF-8");
+		}
+		$("#file").val("");
 	});
 });
 function parseInput(xml) {
@@ -21,7 +25,7 @@ function parseInput(xml) {
 	let lines = [];
 	let row = -1;
 	for (let i = 0; i < xml.all.length; i++) {
-		let tag = xml.all[i].tagName;
+		const tag = xml.all[i].tagName;
 		if (tag === "w:p" || tag === "w:br") {
 			str = str.trim();
 			if (/^\d\d:\d\d:\d\d [a-zA-Z\d ]+/g.test(str)) {
@@ -133,6 +137,6 @@ function genOutput(lines) {
 		}]
 	});
 }
-function saveOutput(doc) {
-	docx.Packer.toBlob(doc).then(function (blob) { saveAs(blob, "output.docx"); });
+function saveOutput(doc, filename) {
+	docx.Packer.toBlob(doc).then(function (blob) { saveAs(blob, filename + "_out.docx"); });
 }
