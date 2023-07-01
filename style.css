@@ -1,12 +1,21 @@
-.input-group {
-	padding: 25%;
+.row {
+	margin-top: 10rem;
 }
 .form-control {
 	background-color: inherit;
 	border: 2px solid var(--bs-border-color);
 }
+.spacer {
+	margin-right: 8rem;
+}
 .form-control:focus {
 	box-shadow: none;
 	border: 2px solid var(--bs-border-color);
 	background-color: inherit;
+}
+.form-check-input {
+	margin-top: 0.37rem;
+}
+.form-check-input:focus {
+	box-shadow: none;
 }
