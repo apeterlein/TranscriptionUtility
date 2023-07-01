@@ -39,6 +39,13 @@ $(document).ready(function () {
 		else { logError("only .docx files are supported", "Try saving as a .docx", "{ name: " + file.name + ", type: " + file.type + " }"); }
 		$("#file").val("");
 	});
+	window.addEventListener("dragover", function (evt) { evt.preventDefault(); } );
+	window.addEventListener("dragenter", function (evt) { evt.preventDefault(); } );
+	window.addEventListener("drop", function (evt) {
+		evt.preventDefault();
+		document.getElementById("file").files = evt.dataTransfer.files;
+		$("#file").trigger("change");
+	});
 });
 function parseInput(xml) {
 	let str = "";
