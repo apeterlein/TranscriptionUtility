@@ -5,8 +5,10 @@
 	background-color: inherit;
 	border: 2px solid var(--bs-border-color);
 }
-.spacer {
-	margin-right: 8rem;
+.form-check-inline {
+	margin-right: 4rem !important;
+	margin-left: 4rem !important;
+	margin-bottom: 1rem !important;
 }
 .form-control:focus {
 	box-shadow: none;
