@@ -14,10 +14,8 @@ $(document).ready(function () {
 		}
 		try {
 			xml = parser.parseFromString(zip.files["word/document.xml"].asText(), "application/xml");
-			window.xml = xml;
-			window.parser = parser;
-			window.raw = zip.files["word/document.xml"].asText();
 			const error = xml.querySelector("parsererror");
+			if (error) { logError("MS Word has generated some yucky XML that I couldn't parse", "Attempting to format content anyway, but if it doesn't work try removing any links or headers from the document", error); }
 		}
 		catch (error) {
 			logError("MS Word has generated some yucky XML that I couldn't parse", "Try removing any links or headers from the document", error);
@@ -62,7 +60,7 @@ function parseInput(xml) {
 		const tag = xml.all[i].tagName;
 		if (tag === "w:p" || tag === "w:br") {
 			str = str.trim();
-			if (/^\d\d:\d\d:\d\d [a-zA-Z\d ]+/g.test(str)) {
+			if (/^\d\d:\d\d:\d\d[a-zA-Z\d ]*/g.test(str)) {
 				const speaker = str.substring(9, str.length);
 				if (!$("#cons").is(':checked') || !(lines[row] && speaker === lines[row]["Speaker"])) {
 					row++;
