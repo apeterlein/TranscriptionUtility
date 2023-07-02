@@ -4,6 +4,7 @@ $(document).ready(function () {
 	$("#file").val("");
 	let filename = "";
 	const reader = new FileReader();
+	const parser = new DOMParser();
 	reader.onload = function (evt) {
 		let zip, xml, lines, doc;
 		try { zip = new PizZip(evt.target.result); }
@@ -11,7 +12,11 @@ $(document).ready(function () {
 			logError("I couldn't extract the contents of that file", "Try again on a different browser", error);
 			return;
 		}
-		try { xml = $.parseXML(zip.files["word/document.xml"].asText()); }
+		try {
+			xml = parser.parseFromString(zip.files["word/document.xml"].asText(), "application/xml");
+			const error = xml.querySelector("parsererror");
+			if (error) { throw new Error(error); }
+		}
 		catch (error) {
 			logError("MS Word has generated some yucky XML that I couldn't parse", "Try removing any links or headers from the document", error);
 			return;
