@@ -15,7 +15,7 @@ $(document).ready(function () {
 		try {
 			xml = parser.parseFromString(zip.files["word/document.xml"].asText(), "application/xml");
 			const error = xml.querySelector("parsererror");
-			if (error) { throw new Error(error); }
+			if (error) { console.debug(xml); }
 		}
 		catch (error) {
 			logError("MS Word has generated some yucky XML that I couldn't parse", "Try removing any links or headers from the document", error);
