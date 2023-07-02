@@ -14,8 +14,10 @@ $(document).ready(function () {
 		}
 		try {
 			xml = parser.parseFromString(zip.files["word/document.xml"].asText(), "application/xml");
+			window.xml = xml;
+			window.parser = parser;
+			window.raw = zip.files["word/document.xml"].asText();
 			const error = xml.querySelector("parsererror");
-			if (error) { console.debug(xml); }
 		}
 		catch (error) {
 			logError("MS Word has generated some yucky XML that I couldn't parse", "Try removing any links or headers from the document", error);
